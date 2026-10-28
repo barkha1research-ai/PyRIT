@@ -144,7 +144,7 @@ class BrailleConverter(Converter):
             "0": "\u281a",
             " ": " ",
         }
-        number_punctuations = [".", ",", "-", "/", "$"]
+        number_punctuations = [".", ",", "-", "/"]
         digit_letters = "abcdefghij"
 
         output = ""

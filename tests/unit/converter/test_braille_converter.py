@@ -240,3 +240,20 @@ async def test_braille_converter_dollar_sign_differs_from_period(prompt, expecte
 
     result = await converter.convert_async(prompt=prompt, input_type="text")
     assert result.output_text == expected
+
+
+@pytest.mark.parametrize(
+    "prompt, expected",
+    [
+        ("1$2", "\u283c\u2801\u2808\u280e\u283c\u2803"),
+        ("$5$10", "\u2808\u280e\u283c\u2811\u2808\u280e\u283c\u2801\u281a"),
+    ],
+    ids=["digit-dollar-digit", "leading-dollar-digit-dollar-digit"],
+)
+async def test_braille_converter_dollar_resets_number_mode(prompt, expected):
+    """The UEB dollar sign ends numeric mode (UEB rules 6.2.1, 6.3.1), so digits
+    after it get a fresh number indicator rather than reading as letters a-j."""
+    converter = BrailleConverter()
+
+    result = await converter.convert_async(prompt=prompt, input_type="text")
+    assert result.output_text == expected
